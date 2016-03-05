@@ -30,7 +30,7 @@ Class MinhaSegundaClasse {
     public $atributo = "";
     
     public function meuMetodo() {
-        
+
         echo "this is my method";
         
     }
@@ -103,20 +103,20 @@ another example
 <?php
 
 abstract class Finances {
-  
+
   abstract function salary() ;
   
 }
 
 class Teacher extends Finances {
-  
+
     public function salary() {
         return $this->salary * 1.08;
     }
 }
 
 class Cook extends Finances {
-  
+
     public function salary() {
         return $this->salary + 500;
     }
@@ -138,7 +138,7 @@ abstract class Auto {
     
 
     public function getName() {
-        
+
         return $this->name;
         
     }
@@ -146,7 +146,7 @@ abstract class Auto {
     abstract public function runAuto();
     
     public function __construct($name) {
-        
+
         $this->name = $name;
         
     }
@@ -155,7 +155,7 @@ abstract class Auto {
 class Motorcycle extends Auto {
 
     public function runAuto() {
-        
+
         echo "Running a " . $this->twowheels . " -> " . $this->name;
         
     }
@@ -165,7 +165,7 @@ class Motorcycle extends Auto {
 class Car extends Auto {
 
     public function runAuto() {
-        
+
         echo "Running a " . $this->fourwheels . " -> " . $this->name;
         
     }
@@ -209,20 +209,20 @@ class MyClass implements  MyInterface {
     private $attrs;
     
     public function set($name, $value) { 
-        
+
         $this->attrs[$name] = $value;
         
     }
     
     public function get($name) {
-        
+
         return $this->attrs[$name];
         
     }
     public function display ($variable) {
 
         foreach($this->attrs[$variable] as $k => $v) { 
-            
+
             echo " key $k value $v";
             
         }
@@ -336,7 +336,7 @@ class Automobile {
     private $vehicleModel;
 
     public function __construct($make, $model) {
-        
+
         $this->vehicleMake = $make;
         
         $this->vehicleModel = $model;
@@ -344,7 +344,7 @@ class Automobile {
     }
 
     public function getMakeAndModel() {
-        
+
         return $this->vehicleMake . ' ' . $this->vehicleModel;
         
     }
@@ -352,7 +352,7 @@ class Automobile {
 
 class AutomobileFactory {
     public static function create($make, $model) {
-        
+
         return new Automobile($make, $model);
         
     }
@@ -378,23 +378,23 @@ class Conext {
     } 
     
     public static function getInstance() {
-       if (!isset(self::$instance)) {
-           
-           self::$instance = new PDO("mysql:host={{$this->info['host']}};dbname={{$this->info['database']}}", 
+     if (!isset(self::$instance)) {
+
+         self::$instance = new PDO("mysql:host={{$this->info['host']}};dbname={{$this->info['database']}}", 
             $this->info['user'], 
             $this->info['pass'], 
             array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8")); 
-           
-           self::$instance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
-           
-           self::$instance->setAttribute(PDO::ATTR_ORACLE_NULLS, PDO::NULL_EMPTY_STRING); 
-           
-       } 
-       
-       return self::$instance; 
-       
-   } 
-   
+
+         self::$instance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
+
+         self::$instance->setAttribute(PDO::ATTR_ORACLE_NULLS, PDO::NULL_EMPTY_STRING); 
+
+     } 
+
+     return self::$instance; 
+
+ } 
+
 }
 
 ?>
@@ -431,15 +431,15 @@ class EventFactoryBrazil extends EventFactory {
     }
 
     public function newEvent($type) { 
-        
+
         if($type == "Regional") {
-            
+
             $this->Evento = new Regional("my_location"); 
             return $this->Evento;
             
         }
         if($type == "Federal") {
-            
+
             $this->Evento = new Regional("DF"); 
             return $this->Evento;
             
@@ -458,9 +458,9 @@ O padrão Abstract Factory aborda o problema de criar fábricas que produzam con
 
 <?php
 abstract class Factory_Abstract_database {
-  
+
     protected function __construct() {
-        
+
     }
 
     abstract public function createinstance();
@@ -493,7 +493,7 @@ class Factory_Abstract_BD_Mysql extends Factory_Abstract_database {
 /* Redis connection */
 
 class Factory_Abstract_BD_Redis  extends Factory_Abstract_database {
-    
+
     public $host = "localhost"; 
 
     public function __construct() {
@@ -606,45 +606,45 @@ Permite a adição de comportamento a um objeto individual, tanto estaticamente 
 <?php
 
 interface eMailBody {
-public function display_body();
+    public function display_body();
 }
 
 class eMail implements eMailBody {
-public function display_body() {
+    public function display_body() {
         echo "This is the Email body.<br />";
     } 
 }
- 
+
 abstract class emailBodyDecorator implements eMailBody {
-     
+
     protected $emailBody;
-     
+
     public function __construct(eMailBody $emailBody) {
-    
+
         $this->emailBody = $emailBody;
     }
 
     abstract public function display_body();
-     
+
 }
 class christmasEmailBody extends emailBodyDecorator {
-     
+
     public function display_body() {
-    
+
         echo 'Christmas';
         $this->emailBody->display_body();    
     }
 }
- 
+
 class newYearEmailBody extends emailBodyDecorator {
- 
+
     public function display_body() {
-    
+
         echo 'New Year';
         $this->emailBody->display_body();
-         
+
     }
- 
+
 }
 /*Normal Email*/
 
@@ -667,5 +667,104 @@ $email = new eMail();
 $email = new newYearEmailBody($email);
 
 $email->display_body();
+
+?>
+
+####Padrão Façade
+
+O padrão Façade é utilizado para simplificar a interface de subsistemas mais complexos e é muito útil para facilitar o entendimento e utilização destes subsistemas pelos clientes.
+O padrão Façade fornece uma interface unificada para um conjunto de interfaces de um subsistema, definindo uma interface de nível mais alto que facilita a utilização do subsistema. 
+A utilização de um subsistema é encapsulada dentro de uma interface, ou fachada, que acessa as classes utilizadas pela aplicação e chama os métodos necessários, não tendo o cliente que acessar diretamente estes.
+
+<?php
+class Motor {
+
+    private $Ingintion;
+    
+    private $Wheel;
+
+    public function setinginition( Ingintion $Ingintion ) {
+    
+        echo __CLASS__ . " setting inginition\n";
+        $this->Ingintion = $Ingintion;
+    }
+
+    public function setWheel( Wheel $Wheel ) {
+        $this->Wheel = $Wheel;
+    }
+
+    public function initialize() {
+        echo __CLASS__ . " initialize...";
+    }
+
+    public function stop() {
+        echo __CLASS__ . " stopping the motor\n";
+    }
+}
+
+class Wheel {
+
+    private $Motor;
+
+    public function stop() {
+        echo __CLASS__ . " break\n";
+    }
+}
+
+
+class Ingintion {
+    private $Motor;
+
+    public function __construct( $Motor ) {
+        $this->Motor = $Motor;
+    }
+
+    public function stop() {
+        echo __CLASS__ . " stopping ...\n";
+    }
+
+    public function initialize( $car_name ) {
+        echo __CLASS__ . " initialize: \"$car_name\"\n";
+    }
+}
+
+class Vehicle {
+    private $motor;
+    private $Wheel;
+    private $inginition;
+
+
+    public function __construct( Motor $motor, Wheel $Wheel, Ingintion $inginition ) {
+        $this->motor = $motor;
+        $this->Wheel = $Wheel;
+        $this->inginition = $inginition;
+    }
+
+    public function run( $car_name ) {
+        echo "Initialize the car...\n";
+        $this->motor->setinginition( $this->inginition );
+        $this->inginition->initialize( $car_name );
+        echo "\n";
+    }
+
+    public function park() {
+        echo "Stopping the vehicle...\n";
+        $this->motor->stop();
+        $this->inginition->stop();
+        echo "\n";
+    }
+}
+
+$motor = new Motor();
+
+$Wheel = new Wheel( $motor );
+
+$inginition = new Ingintion( $motor );
+
+$vehicle = new Vehicle( $motor, $Wheel, $inginition );
+
+$vehicle->run( "porsche" );
+
+$vehicle->park();
 
 ?>
