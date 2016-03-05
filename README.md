@@ -399,7 +399,7 @@ class Conext {
 
 ?>
 
-###Padrão Factory Method
+####Padrão Factory Method
 
 Define uma interface para criar um objeto, mas deixa as subclasses decidirem qual classe será instanciada, permitindo a uma classe postergar a instanciação de subclasses. 
 O padrão Factory Method aborda o problema de como criar instâncias de objetos quando seu código enfoca tipos abstratos.
@@ -451,7 +451,7 @@ $x = new EventFactoryBrazil();
 $x->newEvent("Federal");
 
 ?>
-###Padrão Abstract Factory
+####Padrão Abstract Factory
 
 Este padrão fornece uma interface para criar famílias de objetos relacionados ou dependentes sem especificar suas classes concretas. 
 O padrão Abstract Factory aborda o problema de criar fábricas que produzam conjuntos relacionados de classes em grandes aplicações de forma que um sistema venha sofrer pouco impacto em mudanças.
@@ -516,5 +516,85 @@ $x = new Factory_Abstract_BD_Mysql();
 $x->set("host", "localhost")->set("pass", "mypass")->set("database","test")->set("user","myuser");
 
 $y = new Factory_Abstract_BD_redis(); 
+
+?>
+
+###Padrões Estruturais
+
+Padrões estruturais tratam da forma como classes e objetos estão organizados para a formação de estruturas maiores, tem o objetivo de isolar do cliente como objetos estão associados.
+
+Segundo a Gang of Four, os padrões estruturais podem ser divididos em sete, sendo eles: Adapter, Bridge, Composite, Decorator, Façade, Flyweight e Proxy.
+
+
+####Padrão Composite
+
+É uma forma de agregar e, depois, gerenciar grupos de objetos semelhantes, de modo que um objeto individual não pode ser distinto para um cliente a partir de uma coleção de objetos. O padrão Composite permite construir objetos complexos através de uma composição recursiva que define uma árvore de objetos, onde todos os objetos são acessados de maneira consistente e homogênea, já que todos possuem uma superclasse ou uma interface comum, os clientes podem tratar objetos individuais ou composições de objetos de maneira uniforme.
+
+<?php
+
+interface HtmlElement {
+
+    public function __toString();
+}
+
+class H1 implements HtmlElement {
+
+    private $_text;
+
+    public function __construct($text) {
+        $this->_text = $text;
+    }
+
+    public function __toString() {
+        return "<h1>{$this->_text}</h1>";
+    }
+}
+
+class P implements HtmlElement {
+
+    private $_text;
+
+    public function __construct($text) {
+        $this->_text = $text;
+    }
+
+    public function __toString() {
+        return "<p>{$this->_text}</p>";
+    }
+}
+
+class Div implements HtmlElement {
+
+    private $_children = array();
+
+    public function addChild(HtmlElement $element) {
+        $this->_children[] = $element;
+    }
+
+    public function __toString()
+    {
+        $html = "<div>\n";
+        foreach ($this->_children as $child) {
+            $html .= ' ' . $child ;
+        }
+        $html .= "</div>";
+        return $html;
+    }
+}
+
+
+$div = new Div();
+
+$div->addChild(new H1('Title'));
+
+$div->addChild(new P('Lorem ipsum...'));
+
+$sub = new Div();
+
+$sub->addChild(new P('Dolor sit amet...'));
+
+$div->addChild($sub);
+
+echo $div, "\n";
 
 ?>
