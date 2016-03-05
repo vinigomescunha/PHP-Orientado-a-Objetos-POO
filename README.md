@@ -620,6 +620,7 @@ abstract class emailBodyDecorator implements eMailBody {
     protected $emailBody;
      
     public function __construct(eMailBody $emailBody) {
+    
         $this->emailBody = $emailBody;
     }
 
@@ -629,6 +630,7 @@ abstract class emailBodyDecorator implements eMailBody {
 class christmasEmailBody extends emailBodyDecorator {
      
     public function display_body() {
+    
         echo 'Christmas';
         $this->emailBody->display_body();    
     }
@@ -637,6 +639,7 @@ class christmasEmailBody extends emailBodyDecorator {
 class newYearEmailBody extends emailBodyDecorator {
  
     public function display_body() {
+    
         echo 'New Year';
         $this->emailBody->display_body();
          
@@ -644,14 +647,25 @@ class newYearEmailBody extends emailBodyDecorator {
  
 }
 /*Normal Email*/
+
 $email = new eMail();
+
 $email->display_body();
+
 /*christmas*/
+
 $email = new eMail();
+
 $email = new christmasEmailBody($email);
+
 $email->display_body();
+
 /*new year*/ 
+
 $email = new eMail();
+
 $email = new newYearEmailBody($email);
+
 $email->display_body();
+
 ?>
