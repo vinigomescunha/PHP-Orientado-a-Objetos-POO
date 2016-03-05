@@ -378,23 +378,23 @@ class Conext {
     } 
     
     public static function getInstance() {
-     if (!isset(self::$instance)) {
-         
-         self::$instance = new PDO("mysql:host={{$this->info['host']}};dbname={{$this->info['database']}}", 
+       if (!isset(self::$instance)) {
+           
+           self::$instance = new PDO("mysql:host={{$this->info['host']}};dbname={{$this->info['database']}}", 
             $this->info['user'], 
             $this->info['pass'], 
             array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8")); 
-         
-         self::$instance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
-         
-         self::$instance->setAttribute(PDO::ATTR_ORACLE_NULLS, PDO::NULL_EMPTY_STRING); 
-         
-     } 
-     
-     return self::$instance; 
-     
- } 
- 
+           
+           self::$instance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
+           
+           self::$instance->setAttribute(PDO::ATTR_ORACLE_NULLS, PDO::NULL_EMPTY_STRING); 
+           
+       } 
+       
+       return self::$instance; 
+       
+   } 
+   
 }
 
 ?>
@@ -597,4 +597,61 @@ $div->addChild($sub);
 
 echo $div, "\n";
 
+?>
+####Padrão Decorator
+
+O padrão Decorator possui uma estrutura semelhante à do padrão Composite, porém ajuda a modificar a funcionalidade de componentes concretos, ao invés de usar apenas herança para resolver o problema da variação de funcionalidade, o padrão Decorator usa composição e delegação. O padrão Decorator anexa responsabilidades adicionais a um objeto dinamicamente, fornecendo uma alternativa flexível de subclasse para estender a funcionalidade.
+Permite a adição de comportamento a um objeto individual, tanto estaticamente ou dinamicamente, sem afetar o comportamento de outros objetos da mesma classe.
+
+<?php
+
+interface eMailBody {
+public function display_body();
+}
+
+class eMail implements eMailBody {
+public function display_body() {
+        echo "This is the Email body.<br />";
+    } 
+}
+ 
+abstract class emailBodyDecorator implements eMailBody {
+     
+    protected $emailBody;
+     
+    public function __construct(eMailBody $emailBody) {
+        $this->emailBody = $emailBody;
+    }
+
+    abstract public function display_body();
+     
+}
+class christmasEmailBody extends emailBodyDecorator {
+     
+    public function display_body() {
+        echo 'Christmas';
+        $this->emailBody->display_body();    
+    }
+}
+ 
+class newYearEmailBody extends emailBodyDecorator {
+ 
+    public function display_body() {
+        echo 'New Year';
+        $this->emailBody->display_body();
+         
+    }
+ 
+}
+/*Normal Email*/
+$email = new eMail();
+$email->display_body();
+/*christmas*/
+$email = new eMail();
+$email = new christmasEmailBody($email);
+$email->display_body();
+/*new year*/ 
+$email = new eMail();
+$email = new newYearEmailBody($email);
+$email->display_body();
 ?>
