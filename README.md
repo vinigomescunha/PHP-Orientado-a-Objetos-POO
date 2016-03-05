@@ -729,8 +729,11 @@ class Ingintion {
 }
 
 class Vehicle {
+
     private $motor;
+    
     private $Wheel;
+    
     private $inginition;
 
 
