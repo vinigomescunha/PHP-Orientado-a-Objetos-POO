@@ -5,6 +5,7 @@
 
 Uma classe é um modelo de código para a gerar objetos, onde descreve as propriedades ou atributos, funções ou métodos. 
 
+
 <?php
 
 Class MinhaClasse {
@@ -221,4 +222,81 @@ class MyClass implements  MyInterface {
     }
 }
 
+?>
+
+
+##Polimorfismo
+
+No Polimorfismo podemos derivar classes de uma mesma superclasse e utilizar métodos iguais, porém com comportamentos diferentes. 
+
+Um mesmo método se comporta de diferentes maneiras em diferentes classes.
+
+Polimorfismo simplesmente significa reescrever um método da superclasse na subclasse
+
+<?php
+
+class SuperClass {
+    public function display() {
+        echo "I am a superclass";
+    }
+    
+    function __construct() {
+        $this->display();
+    }
+}
+ 
+
+class Subclass extends SuperClass {
+    public function display() {
+        echo 'I am a subclass';
+    }
+    
+    function __construct() {
+        $this->display();
+    }
+}
+
+$superclasse = new SuperClass;
+ 
+$subclasse = new Subclass;
+
+?>
+
+##Encapsulamento
+
+O encapsulamento é o ato de você provê uma proteção de acesso aos membros internos de um objeto.
+A classe é responsável por seus atributos, e dessa forma podemos acessar esses atributos apenas com métodos da própria classe.
+Os atributos/propriedades nunca devem ser acessadas de fora da classe, pois assim temos uma segurança maior sobre seus valores.
+Para trabalharmos com o encapsulamento devemos entender como funciona a visibilidade dos atributos e métodos de um objeto.
+
+Basicamente existem três tipos de visibilidade
+
+**private**: Atributos ou métodos declarados como private só podem ser acessados dentro do escopo da própria classe em que foram declarados. Ou seja, não podemos acessar a partir de outras classes descendentes. 
+
+**protected**: Atributos ou métodos declarados com protected somente podem ser acessadas dentro da própria classe ou a partir de classes descendentes (herdadas). 
+
+**public**: Atributos ou métodos como public podem ser acessados de forma livre, a partir da própria classe, a partir de classes descendentes e a partir de programas que fazem uso dessa classe.
+
+Se não declaramos visibilidade em membros (atributos e métodos) de uma classe automaticamente Será do tipo public.
+
+<?php
+class System {
+
+    private $code;
+    
+    private $name;
+    
+
+    function SetName($name)  {
+
+        if (is_string($name) && (strlen($name) > 0)) {
+            $this->name = $name;
+        }
+    }
+
+    function getName() {
+        echo "The name is : {$this->name}";
+ 
+    }
+}
 ?>
