@@ -24,12 +24,19 @@ Class MinhaClasse {
         return $retorno;
     }
 }
+
 Class MinhaSegundaClasse {
+
     public $atributo = "";
-    public function meuMetodo(){
+    
+    public function meuMetodo() {
+        
         echo "this is my method";
+        
     }
+    
 }
+
 ?>
 
 ##Objetos
@@ -202,20 +209,20 @@ class MyClass implements  MyInterface {
     private $attrs;
     
     public function set($name, $value) { 
-    
+        
         $this->attrs[$name] = $value;
         
     }
     
     public function get($name) {
-    
+        
         return $this->attrs[$name];
         
     }
     public function display ($variable) {
 
         foreach($this->attrs[$variable] as $k => $v) { 
-        
+            
             echo " key $k value $v";
             
         }
@@ -244,7 +251,7 @@ class SuperClass {
         $this->display();
     }
 }
- 
+
 
 class Subclass extends SuperClass {
     public function display() {
@@ -257,7 +264,7 @@ class Subclass extends SuperClass {
 }
 
 $superclasse = new SuperClass;
- 
+
 $subclasse = new Subclass;
 
 ?>
@@ -296,7 +303,218 @@ class System {
 
     function getName() {
         echo "The name is : {$this->name}";
- 
+        
     }
 }
+?>
+
+
+
+##Padrões de Projeto
+
+Em geral, os padrões de projeto são classificados em três tipos: padrões de criação, padrões estruturais e padrões comportamentais.
+
+###Padrões de Criação
+
+Os padrões de criação se preocupam com a instanciação de objetos. Esse padrão abstrai o processo de instanciação, ajudam a tornar o sistema independente de como objetos são criados, encapsulam conhecimento sobre quais classes concretas o sistema usa e esconde como instâncias dessas classes são criadas.
+
+Os padrões "GoF"(Gang of Four) apresenta cinco padrões de criação: Singleton, Abstract Factory, Builder, Factory Method e Prototype.
+
+####Padrão Singleton
+
+Ess padrão é uma classe especial que gera uma e somente uma instância de objeto, o objetivo do Singleton é assegurar que uma classe tem uma única instância e estabelecer um ponto de acesso global para essa instância.
+Este padrão é adequado para lidar com recursos que devem ser únicos em um sistema, como um controlador de um dispositivo ou um gerenciador. 
+Como o padrão Singleton garante que só exista uma instância da classe, temos a certeza que todos os objetos que utilizam uma instância desta classe usam a mesma instância. A estrutura do padrão Singleton é bastante simples, composto por somente uma classe que instanciará  e caso ainda não exista, então ele solicitará a criação de um novo pelo construtor da classe, previne um possível stack overflow (estouro de pilha) nas aplicações.
+
+
+<?php
+
+class Automobile {
+
+    private $vehicleMake;
+
+    private $vehicleModel;
+
+    public function __construct($make, $model) {
+        
+        $this->vehicleMake = $make;
+        
+        $this->vehicleModel = $model;
+        
+    }
+
+    public function getMakeAndModel() {
+        
+        return $this->vehicleMake . ' ' . $this->vehicleModel;
+        
+    }
+}
+
+class AutomobileFactory {
+    public static function create($make, $model) {
+        
+        return new Automobile($make, $model);
+        
+    }
+}
+
+$veyron = AutomobileFactory::create('Bugatti', 'Veyron');
+
+print_r($veyron->getMakeAndModel()); // outputs "Bugatti Veyron"
+
+?>
+
+
+
+<?php 
+
+class Conext { 
+
+    public static $instance;
+    
+    private $info;
+    
+    function __construct() { 
+    } 
+    
+    public static function getInstance() {
+     if (!isset(self::$instance)) {
+         
+         self::$instance = new PDO("mysql:host={{$this->info['host']}};dbname={{$this->info['database']}}", 
+            $this->info['user'], 
+            $this->info['pass'], 
+            array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8")); 
+         
+         self::$instance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
+         
+         self::$instance->setAttribute(PDO::ATTR_ORACLE_NULLS, PDO::NULL_EMPTY_STRING); 
+         
+     } 
+     
+     return self::$instance; 
+     
+ } 
+ 
+}
+
+?>
+
+###Padrão Factory Method
+
+Define uma interface para criar um objeto, mas deixa as subclasses decidirem qual classe será instanciada, permitindo a uma classe postergar a instanciação de subclasses. 
+O padrão Factory Method aborda o problema de como criar instâncias de objetos quando seu código enfoca tipos abstratos.
+Como a programação orientada a objetos enfatiza a utilização de classes abstratas, Factory Method ajuda a resolver este problema. Abaixo é possível observar a estrutura do padrão.
+
+<?php
+class Regional {
+
+    private $type;
+    
+    function __construct( $type ) {
+        $this->local = $type;
+    }
+    
+}
+
+abstract class EventFactory {
+
+    abstract function newEvent($type);
+    
+}
+
+class EventFactoryBrazil extends EventFactory {
+
+    private $event;
+
+    public function __construct() {
+
+    }
+
+    public function newEvent($type) { 
+        
+        if($type == "Regional") {
+            
+            $this->Evento = new Regional("my_location"); 
+            return $this->Evento;
+            
+        }
+        if($type == "Federal") {
+            
+            $this->Evento = new Regional("DF"); 
+            return $this->Evento;
+            
+        }
+        
+    }
+}
+$x = new EventFactoryBrazil();
+$x->newEvent("Federal");
+
+?>
+###Padrão Abstract Factory
+
+Este padrão fornece uma interface para criar famílias de objetos relacionados ou dependentes sem especificar suas classes concretas. 
+O padrão Abstract Factory aborda o problema de criar fábricas que produzam conjuntos relacionados de classes em grandes aplicações de forma que um sistema venha sofrer pouco impacto em mudanças.
+
+<?php
+abstract class Factory_Abstract_database {
+  
+    protected function __construct() {
+        
+    }
+
+    abstract public function createinstance();
+    
+}
+
+class Factory_Abstract_BD_Mysql extends Factory_Abstract_database {
+
+    private $host;
+    private $pass;
+    private $user;
+    private $database;
+    
+    public function __construct() {
+        parent::__construct();
+    }
+    
+    public function set($k, $v) {
+        $this->$k = $v;
+        return $this;
+    } 
+
+    public function createinstance() {
+        $db = new  PDO("mysql:host={$this->host};dbname={$this->database}", $this->user, $this->pass);
+        return $db;
+    }
+    
+}
+
+/* Redis connection */
+
+class Factory_Abstract_BD_Redis  extends Factory_Abstract_database {
+    
+    public $host = "localhost"; 
+
+    public function __construct() {
+
+    }
+
+    public function createInstance() {
+        $redisClient = new Redis();
+        
+        try{
+          $connection = $redisClient->connect( $this->host, 6379 );
+          var_dump($connection);
+      } catch( Exception $e ) {
+          echo $e -> getMessage( );
+      }
+  }
+}
+$x = new Factory_Abstract_BD_Mysql();
+
+$x->set("host", "localhost")->set("pass", "mypass")->set("database","test")->set("user","myuser");
+
+$y = new Factory_Abstract_BD_redis(); 
+
 ?>
